@@ -11,6 +11,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use((req, res, next) => {
+   res.setHeader('ngrok-skip-browser-warning', '2030');
+   next();
+})
+
 let lastIndex = -1;
 let confirmacoes = 0;
 let saldo_atual = 0;
@@ -159,7 +164,7 @@ app.post('/', (req, res) => {
                    text-align: center;
                    display: block;
                    margin-bottom: 20px;
-                " src="/assets/img/logo.png"/>
+                " src="assets/img/logo.png"/>
                 
                 <style type="text/css">
                    .historia{
@@ -218,35 +223,35 @@ app.post('/', (req, res) => {
                 <div id="carouselevaluador" class="carousel slide" data-bs-ride="carousel">
                  <div class="carousel-inner">
                   <div class="carousel-item active">
-                     <img src="/assets/img/Depoimento6.png" class="d-block w-100" alt="...">
+                     <img src="assets/img/Depoimento6.png" class="d-block w-100" alt="...">
                    </div>
                    <div class="carousel-item" >
-                     <img src="/assets/img/Depoimento7.png" class="d-block w-100" alt="...">
+                     <img src="assets/img/Depoimento7.png" class="d-block w-100" alt="...">
                    </div>
                 
                     <div class="carousel-item">
-                     <img src="/assets/img/Depoimento5.png" class="d-block w-100" alt="...">
+                     <img src="assets/img/Depoimento5.png" class="d-block w-100" alt="...">
                    </div>
                 
                 
                    <div class="carousel-item">
-                     <img src="/assets/img/Depoimento2.jpg" class="d-block w-100" alt="...">
+                     <img src="assets/img/Depoimento2.jpg" class="d-block w-100" alt="...">
                    </div>
                 
                     <div class="carousel-item">
-                     <img src="/assets/img/Depoimento3.png" class="d-block w-100" alt="...">
+                     <img src="assets/img/Depoimento3.png" class="d-block w-100" alt="...">
                    </div>
                 
                     <div class="carousel-item">
-                     <img src="/assets/img/Depoimento4.jpg" class="d-block w-100" alt="...">
+                     <img src="assets/img/Depoimento4.jpg" class="d-block w-100" alt="...">
                    </div>
                 
                 
                     <div class="carousel-item">
-                     <img src="/assets/img/Depoimento0.jpg" class="d-block w-100" alt="...">
+                     <img src="assets/img/Depoimento0.jpg" class="d-block w-100" alt="...">
                    </div>
                    <div class="carousel-item" >
-                     <img src="/assets/img/Depoimento1.jpg" class="d-block w-100" alt="...">
+                     <img src="assets/img/Depoimento1.jpg" class="d-block w-100" alt="...">
                    </div>
                  </div>
                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselevaluador" data-bs-slide="prev">
@@ -384,7 +389,7 @@ app.post('/', (req, res) => {
                        text-align: center;
                        display: block;
                        margin-bottom: 20px;
-                    " src="/assets/img/logo.png"/>
+                    " src="assets/img/logo.png"/>
                     
                     <style type="text/css">
                        .historia{
@@ -443,35 +448,35 @@ app.post('/', (req, res) => {
                     <div id="carouselevaluador" class="carousel slide" data-bs-ride="carousel">
                      <div class="carousel-inner">
                       <div class="carousel-item active">
-                         <img src="/assets/img/Depoimento6.png" class="d-block w-100" alt="...">
+                         <img src="assets/img/Depoimento6.png" class="d-block w-100" alt="...">
                        </div>
                        <div class="carousel-item" >
-                         <img src="/assets/img/Depoimento7.png" class="d-block w-100" alt="...">
+                         <img src="assets/img/Depoimento7.png" class="d-block w-100" alt="...">
                        </div>
                     
                         <div class="carousel-item">
-                         <img src="/assets/img/Depoimento5.png" class="d-block w-100" alt="...">
+                         <img src="assets/img/Depoimento5.png" class="d-block w-100" alt="...">
                        </div>
                     
                     
                        <div class="carousel-item">
-                         <img src="/assets/img/Depoimento2.jpg" class="d-block w-100" alt="...">
+                         <img src="assets/img/Depoimento2.jpg" class="d-block w-100" alt="...">
                        </div>
                     
                         <div class="carousel-item">
-                         <img src="/assets/img/Depoimento3.png" class="d-block w-100" alt="...">
+                         <img src="assets/img/Depoimento3.png" class="d-block w-100" alt="...">
                        </div>
                     
                         <div class="carousel-item">
-                         <img src="/assets/img/Depoimento4.jpg" class="d-block w-100" alt="...">
+                         <img src="assets/img/Depoimento4.jpg" class="d-block w-100" alt="...">
                        </div>
                     
                     
                         <div class="carousel-item">
-                         <img src="/assets/img/Depoimento0.jpg" class="d-block w-100" alt="...">
+                         <img src="assets/img/Depoimento0.jpg" class="d-block w-100" alt="...">
                        </div>
                        <div class="carousel-item" >
-                         <img src="/assets/img/Depoimento1.jpg" class="d-block w-100" alt="...">
+                         <img src="assets/img/Depoimento1.jpg" class="d-block w-100" alt="...">
                        </div>
                      </div>
                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselevaluador" data-bs-slide="prev">
