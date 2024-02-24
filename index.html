@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" user-scalable="no">
+    <title>Evaluador</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600&amp;family=Dancing+Script:wght@400;500;600&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,900&amp;display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="icon" sizes="150x150" href="/img/evaluador-icon.png">
+    <link rel="preload" href="https://scripts.converteai.net/47762d37-ea93-4766-b98a-153f0ff96c2e/players/65cb57692b58ec00092f7c33/player.js" as="script">
+    <link rel="preload" href="https://cdn.converteai.net/lib/js/smartplayer/v1/smartplayer.min.js" as="script">
+    <link rel="preload" href="https://images.converteai.net/a7b8ac59-18c2-4d0a-9fcc-7fa3ac0f58ae/players/65cb57692b58ec00092f7c33/thumbnail.jpg" as="image">
+    <link rel="preload" href="https://cdn.converteai.net/a7b8ac59-18c2-4d0a-9fcc-7fa3ac0f58ae/65cb57692b58ec00092f7c33/main.m3u8" as="fetch">
+    <link rel="dns-prefetch" href="https://cdn.converteai.net">
+    <link rel="dns-prefetch" href="https://scripts.converteai.net">
+    <link rel="dns-prefetch" href="https://images.converteai.net">
+    <link rel="dns-prefetch" href="https://api.vturb.com.br">
+    <style type="text/css">
+      *{
+      margin: 0 auto;
+      font-family: Roboto;
+      }
+      .menu{
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0px 0px 19px -10px #000;
+      position: fixed;
+      width: 100%;
+      top: 0px;
+      z-index: 9999;
+      }
+      .menu > a >img{
+      width: 174px;
+      margin: 3px 5px;
+      }
+      .saldo{
+      position: absolute;
+      right: 20px;
+      font-size: 13px;
+      padding: 5px;
+      border-radius: 30px;
+      min-width: 100px;
+      text-align: center;
+      top: 18px;
+      background-color: #f7f7f7;
+      font-weight: 700;
+      color: #181818;
+      text-indent: 13px;
+      }
+      .corpo {
+      margin-top: 150px;
+      text-align: center;
+      max-width: 780px;
+      }
+      .desc-corpo{
+      color: #6e24b9;
+      font-weight: 600;
+      font-size: 22px;
+      padding: 25px;
+      display: block;
+      }
+      .ofertas{
+      padding: 15px;
+      }
+      .item{
+      width: 100%;
+      height: 110px;
+      display: block;
+      position: relative;
+      background-color: #f1f1f1;
+      margin-bottom: 25px;
+      border-radius: 10px;
+      }
+      .item > img{
+      width: 100px;
+      position: absolute;
+      left: 0px;
+      height: 100%;
+      object-fit: initial;
+      border-radius: 10px 0px 0px 10px;
+      }
+      .title-item{
+      position: absolute;
+      left: 109px;
+      top: 5px;
+      font-weight: 500;
+      font-size: 18px;
+      }
+      .valor-oferta{
+      color: #00c700;
+      position: absolute;
+      left: 108px;
+      top: 30px;
+      font-weight: bold;
+      font-size: 22px;
+      }
+      .responder{
+      position: absolute;
+      right: 10px;
+      top: 37px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #6d27b2;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      }
+      .checkmark-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      }
+      .confetti {
+      position: absolute;
+      animation: grow 1.4s cubic-bezier(0.42, 0, 0.275, 1.155) both alternate-reverse infinite;
+      }
+      .confetti:nth-child(1) {
+      width: 12px;
+      height: 12px;
+      left: 12px;
+      top: 16px;
+      }
+      .confetti:nth-child(2) {
+      width: 18px;
+      height: 18px;
+      left: 168px;
+      top: 84px;
+      }
+      .confetti:nth-child(3) {
+      width: 10px;
+      height: 10px;
+      left: 32px;
+      top: 162px;
+      }
+      .confetti:nth-child(4) {
+      width: 20px;
+      height: 20px;
+      left: 82px;
+      top: -12px;
+      }
+      .confetti:nth-child(5) {
+      width: 14px;
+      height: 14px;
+      left: 125px;
+      top: 162px;
+      }
+      .confetti:nth-child(6) {
+      width: 10px;
+      height: 10px;
+      left: 16px;
+      top: 16px;
+      }
+      .confetti:nth-child(1) {
+      animation-delay: 0.7s;
+      }
+      .confetti:nth-child(2) {
+      animation-delay: 1.4s;
+      }
+      .confetti:nth-child(3) {
+      animation-delay: 2.1s;
+      }
+      .confetti:nth-child(4) {
+      animation-delay: 2.8s;
+      }
+      .confetti:nth-child(5) {
+      animation-delay: 3.5s;
+      }
+      .confetti:nth-child(6) {
+      animation-delay: 4.2s;
+      }
+      .checkmark {
+      position: relative;
+      padding: 30px;
+      /* animation: checkmark 5.6s cubic-bezier(0.42, 0, 0.275, 1.155) both; */
+      }
+      .checkmark__check {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 10;
+      transform: translate3d(-50%, -50%, 0);
+      fill: #fff;
+      }
+      .checkmark__back {
+      animation: rotate 35s linear both infinite;
+      }
+      @keyframes rotate {
+      0% {
+      transform: rotate(0deg);
+      }
+      100% {
+      transform: rotate(360deg);
+      }
+      }
+      @keyframes grow {
+      0%, 100% {
+      transform: scale(0);
+      }
+      50% {
+      transform: scale(1);
+      }
+      }
+      @keyframes checkmark {
+      0%, 100% {
+      opacity: 0;
+      transform: scale(0);
+      }
+      10%, 50%, 90% {
+      opacity: 1;
+      transform: scale(1);
+      }
+      }
+      .perfil_img{
+      width: 45px;
+      height: 45px;
+      border-radius: 100px;
+      position: absolute;
+      top: -9px;
+      right: -36px;
+      object-fit: cover;
+      box-shadow: 0px 0px 0px 1px #878787;
+      }
+      .ganhos_bottom{
+      position: absolute;
+      font-size: 12px;
+      left: 108px;
+      top: 87px;
+      color: #414141;
+      display: block;
+      font-weight: 500;
+      }
+      .descs{
+      font-size: 12px;
+      display: block;
+      left: -0px;
+      position: absolute
+      }
+      @media(max-width: 375px){
+      .menu > a >img {
+      width: 160px;
+      margin: 4px 5px;
+      }
+      h3{
+      font-size: 20px !important;
+      }
+      .desc-corpo{
+      font-size: 20px;
+      }
+      .item{
+      height: 100px;
+      }
+      .valor-oferta {
+      font-size: 17px;
+      }
+      .ganhos_bottom{
+      top: 82px;
+      font-size: 11px;
+      }
+      .responder{
+      right: 8px;
+      top: 29px;
+      font-size: 13px;
+      }
+      .descs{
+      font-size: 11px;
+      top: 22px;
+      }
+      }
+      @media(max-width: 320px){
+      .menu > a >img {
+      width: 135px;
+      margin: 7px 4px;
+      }
+      h3{
+      font-size: 20px !important;
+      }
+      .desc-corpo{
+      font-size: 20px;
+      }
+      .item{
+      height: 85px;
+      }
+      .item > img {
+      width: 85px;
+      }
+      .title-item {
+      left: 90px;
+      font-size: 16px;
+      }
+      .valor-oferta {
+      font-size: 15px;
+      left: 90px;
+      top: 25px;
+      }
+      .ganhos_bottom{
+      top: 68px;
+      left: 90px;
+      font-size: 10px;
+      }
+      .ganhos_bottom > i{
+      text-indent: -12px;
+      }
+      .responder{
+      right: 8px;
+      top: 24px;
+      font-size: 12px;
+      }
+      .descs{
+      font-size: 10px;
+      top: 19px;
+      }
+      }
+      #user_pagamentos{
+      position: fixed;
+      left: 0px;
+      top: 8px;
+      z-index: 11;
+      padding-bottom: 30px;
+      }
+      .container1 {
+      margin-top: 49px;
+      white-space: nowrap;
+      position: relative;
+      animation: moveRightToLeft 750s linear infinite;
+      padding-top: 17px;
+      background-color: #fff;
+      z-index: 99999999;
+      padding-bottom: 10px;
+      }
+      .moving-div {
+      display: inline-block;
+      background-color: #f5f5f5;
+      margin-left: 10px;
+      border-radius: 5px;
+      padding: 4px 35px;
+      font-size: 12px;
+      box-shadow: 0px 0px 1px 1px #f3f3f3;
+      text-align: center;
+      font-weight: 400;
+      }
+      @keyframes moveRightToLeft {
+      0% {
+      transform: translateX(0%);
+      }
+      100% {
+      transform: translateX(-100%);
+      }
+      }
+      .valor_sacado{
+      color: #4CAF50;
+      }
+      .desc_sacado{
+      font-size: 11px;
+      margin-top: 1px;
+      font-weight: 300;
+      }
+    </style>
+  </head>
+  <body cz-shortcut-listen="true">
+    <script type="text/javascript">
+      $("title").text("Evaluador");
+    </script>
+    <div id="user_pagamentos" style="position: fixed; left: 0px; top: 10px;">
+      <div class="container1" id="name-container">
+      </div>
+    </div>
+    <script>
+      // Array com 100 nomes
+      const names = [
+      "Isabella Almeida", "Matias Amaral", "Valentina Barros", "Santiago Borges", "Juliana Cardoso",
+      "Lucas Costa", "Manuela Castro", "Gabriel Duarte", "Fernanda Dias", "Joel Dominguez",
+      "Camila Espinosa", "Diego Esteves", "Renata Ferreira", "Daniel Fuentes", "Larissa Gomes",
+      "Luciano Gonzalez", "Mariana Herrera", "Felipe Hernandes", "Ana Sofia Ibanez", "Rafael Inacio",
+      "Elena Jimenez", "Joaquim Jara", "Antonella Kowalski", "Leonardo Lima", "Isadora Leal",
+      "Andres Lopes", "Clara Mendez", "Cristian Martins", "Aurora Munoz", "Adriana Nunes",
+      "Thiago Nascimento", "Luna Ochoa", "Hernan Oliveira", "Victoria Ortega", "Sebastian Pires",
+      "Valeria Pereira", "Lucas Quintero", "Beatriz Queiroz", "Gustavo Rocha", "Carolina Ribeiro",
+      "Raquel Ramos", "Carlos Rodriguez", "Alejandra Santos", "Francisco Silva", "Olivia Sampaio",
+      "Martin Souza", "Eva Santos", "Javier Silva", "Luisa Teixeira", "Ricardo Tavares",
+      "Ana Laura Uchoa", "Marcos Ulloa", "Natalia Urquiza", "Pedro Vargas", "Bianca Vasquez",
+      "Lucia Varela", "Diego Velasco", "Eduardo Villanueva", "Isabel Viana", "Gabriela Veiga",
+      "Rodrigo Xavier", "Sofia Ximenes", "Alejandro Xerez", "Natalia Ximenez", "Vitor Xavier",
+      "Leandro Yunes", "Raquel Yañez", "Bruno Zanetti", "Aline Zuniga", "Vitoria Zapata",
+      "Luis Zavaleta", "Marta Zorrilla", "Juan Zunino", "Silvia Zabala", "Mateo Zavala",
+      "Monica Zapatero", "Daniel Zayas", "Camila Zavarse", "Fernando Zelaya", "Antonia Zarraga",
+      "Lucas Zelada", "Isabel Zerpa", "Miguel Zabala", "Clara Zuluaga", "Diego Zuleta","Amanda Alves", "Bruno Barbosa", "Carla Carvalho", "David Dias", "Eduarda Esteves",
+      "Fabio Fernandes", "Gabriela Gomes", "Henrique Henriques", "Isis Inacio", "Joao Jardim",
+      "Karla Kowalski", "Lucas Lima", "Mariana Martins", "Nuno Nunes", "Olivia Oliveira",
+      "Pedro Pereira", "Quezia Queiroz", "Ricardo Rocha", "Sara Silva", "Thales Teixeira",
+      "Ursula Uchoa", "Vinicius Vasconcelos", "Wagner Watanabe", "Xuxa Xavier", "Yasmin Yunes",
+      "Zelia Zanetti", "Ana Beatriz Almeida", "Breno Amaral", "Carolina Barros", "Davi Borges",
+      "Elisa Cardoso", "Felipe Costa", "Gabriela Castro", "Hugo Duarte", "Isabel Dias", "Jonas Dominguez",
+      "Kamila Espinosa", "Lucas Esteves", "Mariana Ferreira", "Nicolas Fuentes", "Olivia Gomes",
+      "Paulo Gonzalez", "Quiteria Herrera", "Renato Hernandes", "Sophia Ibanez", "Tiago Inacio",
+      "Ursula Jimenez", "Valter Jara", "William Kowalski", "Xenia Lima", "Yuri Leal",
+      "Zoraide Lopes", "Andre Mendez", "Bianca Martins", "Caio Munoz", "Daniela Nunes",
+      "Emanuel Nascimento", "Fernanda Ochoa", "Giovanni Oliveira", "Helena Ortega", "Igor Pires",
+      "Juliana Pereira", "Kleber Quintero", "Leticia Queiroz", "Mateus Rocha", "Natalia Ribeiro",
+      "Otavio Ramos", "Priscila Rodriguez", "Quiteria Santos", "Rodolfo Silva", "Sabrina Sampaio",
+      "Thiago Souza", "Ursula Santos", "Vitoria Silva", "Wesley Teixeira", "Xuxa Tavares",
+      "Yasmin Uchoa", "Zaqueu Ulloa", "Ana Viana", "Bruno Vasquez", "Carla Varela",
+      "Diego Velasco", "Eloa Villanueva", "Fabio Viana", "Gabriela Veiga", "Henrique Xavier",
+      "Ingrid Yunes", "Joaquim Yañez", "Karine Zanetti", "Leandro Zuniga", "Mara Zapata",
+      "Nelson Zavaleta", "Olga Zorrilla", "Paulo Zunino", "Quezia Zabala", "Rafaela Zavala",
+      "Silvio Zapatero", "Tatiane Zayas", "Ursula Zavarse", "Vagner Zelaya", "Wanessa Zarraga",
+      "Xuxa Zelada", "Yasmin Zerpa", "Zuleide Zabala"
+      ];
+      
+      // Preencher as divs aleatoriamente com nomes do array
+      const container = document.getElementById("name-container");
+      
+      for (let i = 1; i <= 100; i++) {
+          const randomName = names[Math.floor(Math.random() * names.length)];
+          const div = document.createElement("div");
+          div.className = "moving-div";
+      
+          // Adicionar o nome
+          div.textContent = `${randomName}`;
+      
+          // Adicionar o elemento extra dentro da div moving-div
+          const extraElement = document.createElement("div");
+           extraElement.className = "desc_sacado";
+          const randomValue = Math.floor(Math.random() * (350 - 50 + 1)) + 50; // Valor aleatório entre 80 e 30
+          extraElement.innerHTML = `Retiró <span class="valor_sacado">US$ ${randomValue},00</span>`;
+          div.appendChild(extraElement);
+      
+          // Adicionar a div com o nome e o elemento extra à container
+          container.appendChild(div);
+      }
+    </script>
+    <style type="text/css">
+      .effect-holder {
+      height: auto;
+      width: calc(33.3% - 1rem);
+      border-radius: 16px;
+      float: left;
+      width: 100%;
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      z-index: 999999999999999;
+      user-select: none;
+      opacity: 0;
+      transition: 0.2s all;
+      top: -150px;
+      }
+      .dropdown-style {
+      border-radius: 29px;
+      padding: 12px 5px 12px 19px;
+      box-sizing: border-box;
+      color: rgba(0,0,0,0.8);
+      backdrop-filter: blur(21px);
+      -webkit-backdrop-filter: blur(21px);
+      display: block;
+      width: 95%;
+      position: fixed;
+      margin: 0 auto;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #423c5a80;
+      box-shadow: 0 10px 15px rgb(0 0 0 / 30%);
+      }
+      .dropdown-style > svg {
+      width: 40px;
+      margin: 5px 1rem 5px 0;
+      }
+      .dropdown-style>span{
+      color: #fff;
+      text-align: left;
+      width: 100%;
+      }
+    </style>
+    <div class="effect-holder ios_dark">
+      <div class="dropdown-style black">
+        <span style="    position: absolute;
+          right: 19px;
+          top: 10px;
+          width: 100%;
+          text-align: right;
+          font-weight: 300;
+          font-size: 14px;
+          color: #e3e3e3;">ahora</span>
+        <svg style="
+          margin-left: 0px;
+          margin-right: 5px;
+          border-radius: 9px;
+          height: 50px;
+          " xmlns="http://www.w3.org/2000/svg" aria-label="PayPal" role="img" viewBox="0 0 512 512" width="40px" height="40px" fill="#000000">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <rect width="512" height="512" rx="15%" fill="rgb(1 48 136)"></rect>
+            <path fill="rgb(255 254 255)" d="M377 184.8L180.7 399h-72c-5 0-9-5-8-10l48-304c1-7 7-12 14-12h122c84 3 107 46 92 112z"></path>
+            <path fill="rgb(115 141 191)" d="M380.2 165c30 16 37 46 27 86-13 59-52 84-109 85l-16 1c-6 0-10 4-11 10l-13 79c-1 7-7 12-14 12h-60c-5 0-9-5-8-10l22-143c1-5 182-120 182-120z"></path>
+            <path fill="rgb(178 192 220)" d="M197 292l20-127a14 14 0 0 1 13-11h96c23 0 40 4 54 11-5 44-26 115-128 117h-44c-5 0-10 4-11 10z"></path>
+          </g>
+        </svg>
+        <span style="
+          color: #fff;
+          text-align: left;
+          position: absolute;
+          top: 10px;
+          left: 71px;
+          box-sizing: border-box;
+          font-weight: 500;
+          ">PayPal</span>
+        <span style="
+          margin: 0px 0px 0px 0px;
+          color: #fff;
+          text-align: left;
+          position: absolute;
+          top: 31px;
+          left: 71px;
+          box-sizing: border-box;
+          font-weight: 300;
+          line-height: normal;
+          ">Has recibido $<span class="notify_valor"></span> USD de<br> Evaluador Galardonado
+        </span>
+      </div>
+    </div>
+    <div class="menu">
+      <a href="/"><img src="/assets/img/logo.png"></a>    
+      <div class="saldo">
+        <svg style="position: absolute;left: -5px;top: -1px;border-radius: 100px;" height="30px" width="30px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <circle style="fill:#FFDC64;" cx="256" cy="256" r="256"></circle>
+            <circle style="fill:#FFC850;" cx="256" cy="256" r="220.69"></circle>
+            <circle style="fill:#FFF082;" cx="256" cy="256" r="194.207"></circle>
+            <path style="fill:#E7B452;" d="M291.31,253.95v-93.357c18.276,6.737,30.897,18.294,30.897,30.856c0,7.31,5.931,13.241,13.241,13.241 s13.241-5.931,13.241-13.241c0-26.968-23.418-49.479-57.379-58.808v-9.054c0-7.31-5.931-13.241-13.241-13.241 c-7.31,0-13.241,5.931-13.241,13.241v4.71c-2.905-0.18-5.843-0.296-8.828-0.296s-5.922,0.116-8.828,0.296v-4.71 c0-7.31-5.931-13.241-13.241-13.241s-13.241,5.931-13.241,13.241v9.054c-33.961,9.33-57.379,31.839-57.379,58.808 c0,35.75,24.744,53.774,57.379,66.601v93.357c-18.276-6.737-30.897-18.294-30.897-30.856c0-7.31-5.931-13.241-13.241-13.241 s-13.241,5.931-13.241,13.241c0,26.968,23.418,49.479,57.379,58.808v9.055c0,7.31,5.931,13.241,13.241,13.241 s13.241-5.931,13.241-13.241v-4.71c2.905,0.18,5.843,0.296,8.828,0.296s5.922-0.116,8.828-0.296v4.71 c0,7.31,5.931,13.241,13.241,13.241c7.31,0,13.241-5.931,13.241-13.241v-9.054c33.961-9.33,57.379-31.839,57.379-58.808 C348.69,284.801,323.946,266.776,291.31,253.95z M256,154.483c2.985,0,5.921,0.167,8.828,0.405v89.97 c-1.668-0.514-3.327-1.033-5.009-1.539c-4.502-1.355-8.652-2.679-12.647-3.994v-84.437C250.079,154.649,253.015,154.483,256,154.483 z M189.793,191.448c0-12.562,12.62-24.118,30.897-30.856v68.591C198.004,218.632,189.793,207.616,189.793,191.448z M256,357.517 c-2.985,0-5.921-0.167-8.828-0.405v-89.97c1.668,0.514,3.327,1.033,5.009,1.539c4.502,1.355,8.652,2.679,12.647,3.994v84.437 C261.921,357.351,258.985,357.517,256,357.517z M291.31,351.407v-68.591c22.686,10.552,30.897,21.568,30.897,37.736 C322.207,333.113,309.587,344.67,291.31,351.407z"></path>
+          </g>
+        </svg>
+        <span style=" text-indent: 5px;
+          position: relative;
+          display: block;">
+          <div id="saldo_menu" style="
+            position: relative;
+            left: 6px;
+            width: auto;
+            padding: 0px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            ">US$ 34,50</div>
+        </span>
+      </div>
+    </div>
+    <div id="inicio" class="corpo">
+      <h3 style="
+        font-size: 17px !important;
+        font-weight: 500;
+        user-select: none;
+        padding: 7px;
+        ">Gana hasta <font style="    color: #00c700;
+        font-weight: 600;">US$ 1.000,00</font> al día evaluando marcas. Conviértete en un Maestro Evaluador y transforma <font style="color: #6d27b2;
+        font-weight: 600;">tus opiniones en dinero.</font></h3>
+      <span class="desc-corpo" style="user-select: none;">
+      haga clic para comenzar
+      </span>
+      <div class="ofertas">
+        <div class="item" style="">
+          <img src="/assets/img/nike.png">
+          <span class="title-item">
+            NIKE
+            <svg style="position: relative;left: 4px;
+              top: -8px;" width="16px" height="16px" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 16C2 8.26801 8.26801 2 16 2C23.732 2 30 8.26801 30 16C30 23.732 23.732 30 16 30C8.26801 30 2 23.732 2 16ZM20.9502 14.2929C21.3407 13.9024 21.3407 13.2692 20.9502 12.8787C20.5597 12.4882 19.9265 12.4882 19.536 12.8787L14.5862 17.8285L12.4649 15.7071C12.0744 15.3166 11.4412 15.3166 11.0507 15.7071C10.6602 16.0977 10.6602 16.7308 11.0507 17.1213L13.8791 19.9498C14.2697 20.3403 14.9028 20.3403 15.2933 19.9498L20.9502 14.2929Z" fill="#42a4ff"></path>
+              </g>
+            </svg>
+          </span>
+          <div class="valor-oferta">US$ 95,00 <span class="descs">Disponible</span>
+          </div>
+          <div class="responder" marca="1">
+            Responder
+          </div>
+        </div>
+        <div class="item" style="">
+          <img src="/assets/img/puma.png">
+          <span class="title-item">
+            PUMA
+            <svg style="position: relative;left: 4px;
+              top: -8px;" width="16px" height="16px" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 16C2 8.26801 8.26801 2 16 2C23.732 2 30 8.26801 30 16C30 23.732 23.732 30 16 30C8.26801 30 2 23.732 2 16ZM20.9502 14.2929C21.3407 13.9024 21.3407 13.2692 20.9502 12.8787C20.5597 12.4882 19.9265 12.4882 19.536 12.8787L14.5862 17.8285L12.4649 15.7071C12.0744 15.3166 11.4412 15.3166 11.0507 15.7071C10.6602 16.0977 10.6602 16.7308 11.0507 17.1213L13.8791 19.9498C14.2697 20.3403 14.9028 20.3403 15.2933 19.9498L20.9502 14.2929Z" fill="#42a4ff"></path>
+              </g>
+            </svg>
+          </span>
+          <div class="valor-oferta">US$ 84,50 <span class="descs">Disponible</span>
+          </div>
+          <div class="responder" marca="7">
+            Responder
+          </div>
+        </div>
+        <div class="item" style="">
+          <img src="/assets/img/prada.png">
+          <span class="title-item">
+            PRADA
+            <svg style="position: relative;left: 4px;
+              top: -8px;" width="16px" height="16px" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 16C2 8.26801 8.26801 2 16 2C23.732 2 30 8.26801 30 16C30 23.732 23.732 30 16 30C8.26801 30 2 23.732 2 16ZM20.9502 14.2929C21.3407 13.9024 21.3407 13.2692 20.9502 12.8787C20.5597 12.4882 19.9265 12.4882 19.536 12.8787L14.5862 17.8285L12.4649 15.7071C12.0744 15.3166 11.4412 15.3166 11.0507 15.7071C10.6602 16.0977 10.6602 16.7308 11.0507 17.1213L13.8791 19.9498C14.2697 20.3403 14.9028 20.3403 15.2933 19.9498L20.9502 14.2929Z" fill="#42a4ff"></path>
+              </g>
+            </svg>
+          </span>
+          <div class="valor-oferta">US$ 105.50 <span class="descs">Disponible</span>
+          </div>
+          <div class="responder" marca="11">
+            Responder
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="demo_load">
+      <script type="text/javascript">
+        function atualizarSaldo() {
+            var saldoElementMenu = document.getElementById('saldo_menu');
+        
+            // Substitua ',' por '.' para garantir a correta conversão para float
+            var saldoAtual = parseFloat("0.00");
+        
+            // Gera um novo valor aleatório para adicionar ao saldo atual
+            var valorAleatorio = parseFloat("34.5".replace(',', '.'));
+        
+            atualizarTextoComAnimacao(saldoAtual, saldoAtual + valorAleatorio, saldoElementMenu);
+        }
+        
+        function atualizarTextoComAnimacao(valorInicial, valorFinal, elemento) {
+            var passos = 50;
+            var intervalo = 30;
+        
+            var diff = valorFinal - valorInicial;
+            var incremento = diff / passos;
+            var contador = 0;
+        
+            var animacao = setInterval(function () {
+                valorInicial += incremento;
+        
+                // Use toLocaleString para formatar o número com as devidas casas decimais e vírgula
+                if (elemento.id === "saldo_menu") {
+                    elemento.innerText = "US$ " + valorInicial.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                } else {
+                    elemento.innerText = valorInicial.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                }
+        
+                contador++;
+        
+                if (contador === passos) {
+                    clearInterval(animacao);
+                }
+            }, intervalo);
+        }
+        
+        atualizarSaldo();
+        
+      </script>
+    </div>
+    <style type="text/css">
+      #open_produtos{
+      position: fixed;
+      top: 62px;
+      padding: 18px;
+      height: 100%;
+      width: 100%;
+      left: 50%;
+      transform: translate(-50%);
+      background-color: #fff;
+      box-shadow: 0px 0px 14px -9px #000;
+      box-sizing: border-box;
+      overflow: scroll;
+      padding-bottom: 100px;
+      max-width: 780px;
+      z-index: 999;
+      }
+      #open_produtos>img{
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px -3px #000;
+      max-height: 350px;
+      object-fit: cover;
+      margin-top: 30px;
+      }
+      #open_produtos>h1{
+      font-size: 20px;
+      text-align: left;
+      padding: 18px;
+      border-bottom: solid 1px #efefef;
+      position: relative;
+      }
+      .close_oferta{
+      position: absolute;
+      right: 9px;
+      top: 32px;
+      background-color: #fff;
+      border-radius: 100px;
+      box-shadow: 0px 0px 2px 0px #000
+      }
+      #perfil{
+      position: relative;
+      }
+    </style>
+    <div id="open_produtos" style="display: none;">
+    </div>
+    
+    <script>
+      $.ajax({
+           type: "POST",
+           url: "http://localhost:3000/", // Substitua pelo URL do seu servidor
+            data: {
+                 "r" : "demo"            
+               },
+           success: function(response) {
+            $("#demo_load").html(response);
+           }
+      
+         });
+      
+      
+      
+      
+      $(".responder").on("click", function(){
+      
+      
+      
+      
+      marca_id = $(this).attr("marca");
+      
+      
+      
+      $.ajax({
+           type: "POST",
+           url: "http://localhost:3000/", // Substitua pelo URL do seu servidor
+            data: {
+                 "r" : "open_marca",
+                 "marca_id" : marca_id,
+                 'type' : "first"
+               },
+           success: function(response) {
+             // Manipule a resposta do servidor após uma solicitação bem-sucedida
+             $("#open_produtos").html(response);
+             $("#open_produtos").show();
+           }
+      
+         });
+      
+      
+      
+      
+      });
+      
+      
+      
+      $(document).on("click", ".close_oferta", function(){
+         $("#open_produtos").fadeOut();
+         var p = "";
+         
+      });
+      
+      function mostrarSaldo() {
+       $(".saldo").fadeIn();
+      }
+      
+      
+      
+      
+      
+      
+      
+      window.onpopstate = function(event) {
+         var pagina = (event.state && event.state.p) || "";
+         
+          window.location.reload();
+      };
+      
+      
+    </script>
+    
+    <script>
+      window.onload = function(){
+          document.body.oncontextmenu= function(){return false;};
+          window.addEventListener('selectstart', function(e){ e.preventDefault(); });
+          document.addEventListener('keydown',function(e) {
+            if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          },false);		
+      }
+    </script>
+  </body>
+</html>
