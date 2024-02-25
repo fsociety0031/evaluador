@@ -12,6 +12,7 @@ app.use(cors());
 let lastIndex = -1;
 let confirmacoes = 0;
 let saldo_atual = 0;
+let responseSent = false;
 
 app.post('/', (req, res) => {
     fs.readFile('data.json', 'utf8', (err, data) => {
