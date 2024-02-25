@@ -528,8 +528,8 @@ app.post('/', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Servidor está rodando na porta 3000');
+app.listen(80, () => {
+    console.log('Servidor está rodando na porta 80');
 });
 
 app.on('error', (err) => {
