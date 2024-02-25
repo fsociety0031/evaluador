@@ -27,7 +27,7 @@ app.post('/', (req, res) => {
       store.set('user', user);
   }
    
-   store.set('user', data)
+   // store.set('user', data)
    
 
     fs.readFile('data.json', 'utf8', (err, data) => {
